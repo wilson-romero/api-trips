@@ -49,6 +49,29 @@ export class TripsController {
     }
   }
 
+  @Get('/count')
+  async countTrips(@Res() res: Response): Promise<any> {
+    try {
+      const result = await this.tripService.countTrips();
+      return res.status(HttpStatus.OK).json(result);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  @Get('/countByCity')
+  async countByCityTrips(
+    @Res() res: Response,
+    @Query('city') city: string,
+  ): Promise<any> {
+    try {
+      const result = await this.tripService.countByCityTrips(city);
+      return res.status(HttpStatus.OK).json(result);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
   @Get('/:id')
   async getTrip(@Res() res: Response, @Param('id') id: string): Promise<any> {
     try {
