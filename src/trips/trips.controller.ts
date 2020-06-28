@@ -63,7 +63,11 @@ export class TripsController {
   }
 
   @Get('/countByCity')
-  @ApiQuery({ name: 'city', description: 'Filter by the name of the city.', required: false })
+  @ApiQuery({
+    name: 'city',
+    description: 'Filter by the name of the city.',
+    required: false,
+  })
   async countByCityTrips(
     @Res() res: Response,
     @Query('city') city: string,
