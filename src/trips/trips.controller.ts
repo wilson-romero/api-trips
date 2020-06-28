@@ -14,6 +14,7 @@ import {
 import { Response } from 'express';
 import { TripDTO } from './dto/trip.dto';
 import { TripsService } from './trips.service';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('trips')
 export class TripsController {
@@ -36,12 +37,16 @@ export class TripsController {
   }
 
   @Get('/')
-  async getTrips(@Res() res: Response): Promise<any> {
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  async getTrips(
+    @Res() res: Response,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<any> {
     try {
-      const trips = await this.tripService.getTrips();
-      return res.status(HttpStatus.OK).json({
-        trips,
-      });
+      const result = await this.tripService.getTrips(page, limit);
+      return res.status(HttpStatus.OK).json(result);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
@@ -58,6 +63,7 @@ export class TripsController {
   }
 
   @Get('/countByCity')
+  @ApiQuery({ name: 'city', description: 'Filter by the name of the city.', required: false })
   async countByCityTrips(
     @Res() res: Response,
     @Query('city') city: string,

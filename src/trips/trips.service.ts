@@ -3,14 +3,26 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Trip } from './interfaces/trip.interface';
 import { TripDTO } from './dto/trip.dto';
-
 @Injectable()
 export class TripsService {
   constructor(@InjectModel('Trip') private tripModel: Model<Trip>) {}
 
-  async getTrips(): Promise<Trip[]> {
-    const trips = await this.tripModel.find();
-    return trips;
+  async getTrips(page = 1, limit = 25): Promise<any> {
+    const trips = await this.tripModel
+      .find()
+      .skip(Number(limit) * (Number(page) - 1))
+      .limit(Number(limit));
+
+    const count = await this.tripModel.countDocuments();
+    return {
+      info: {
+        count,
+        currentPageCount: trips.length,
+        pages: Math.ceil(count / limit),
+        page: Number(page),
+      },
+      trips,
+    };
   }
 
   async getTrip(id: string): Promise<Trip> {
