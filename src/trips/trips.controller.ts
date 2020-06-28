@@ -9,6 +9,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   Put,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { TripDTO } from './dto/trip.dto';
@@ -41,6 +42,29 @@ export class TripsController {
       return res.status(HttpStatus.OK).json({
         trips,
       });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  @Get('/count')
+  async countTrips(@Res() res: Response): Promise<any> {
+    try {
+      const result = await this.tripService.countTrips();
+      return res.status(HttpStatus.OK).json(result);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  @Get('/countByCity')
+  async countByCityTrips(
+    @Res() res: Response,
+    @Query('city') city: string,
+  ): Promise<any> {
+    try {
+      const result = await this.tripService.countByCityTrips(city);
+      return res.status(HttpStatus.OK).json(result);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
