@@ -9,7 +9,6 @@ import {
   NotFoundException,
   InternalServerErrorException,
   Put,
-  Patch,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { TripDTO } from './dto/trip.dto';
@@ -31,7 +30,7 @@ export class TripsController {
         trip,
       });
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -43,7 +42,7 @@ export class TripsController {
         trips,
       });
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -54,21 +53,25 @@ export class TripsController {
       if (!trip) throw new NotFoundException('Trip does not exists');
       return res.status(HttpStatus.OK).json(trip);
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message);
     }
   }
 
   @Put('/:id')
-  async updateTrip(@Res() res: Response, @Body() tripDTO: TripDTO, @Param('id') id: string): Promise<any> {
+  async updateTrip(
+    @Res() res: Response,
+    @Body() tripDTO: TripDTO,
+    @Param('id') id: string,
+  ): Promise<any> {
     try {
-      const trip = await this.tripService.updateTrip(id,tripDTO)
+      const trip = await this.tripService.updateTrip(id, tripDTO);
       if (!trip) throw new NotFoundException('Trip does not exists');
       return res.status(HttpStatus.OK).json({
         message: 'Trip updated successfully',
-        trip
+        trip,
       });
     } catch (error) {
-      throw new InternalServerErrorException(error.message) 
+      throw new InternalServerErrorException(error.message);
     }
   }
 }
