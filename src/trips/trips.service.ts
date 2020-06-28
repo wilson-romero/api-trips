@@ -18,6 +18,35 @@ export class TripsService {
     return trip;
   }
 
+  async countTrips(): Promise<any> {
+    const count = await this.tripModel.countDocuments();
+    return {
+      count,
+    };
+  }
+
+  async countByCityTrips(city = '.'): Promise<any> {
+    const result = await this.tripModel.aggregate([
+      {
+        $match: {
+          'city.name': {
+            $regex: new RegExp(`${city}`),
+            $options: 'i',
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { city: '$city.name', country: '$country.name' },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+    return result;
+  }
+
   async createTrip(tripDTO: TripDTO): Promise<Trip> {
     const trip = new this.tripModel(tripDTO);
     return await trip.save();
