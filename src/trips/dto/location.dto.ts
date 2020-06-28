@@ -6,6 +6,6 @@ export class LocationDTO {
     type: string;
   };
 
-  @ApiProperty({ type: [Number,Number] , default: [0, 0] })
+  @ApiProperty({ type: [Number, Number], default: [0, 0] })
   coordinates: [number, number];
 }

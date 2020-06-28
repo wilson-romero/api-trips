@@ -9,6 +9,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   Put,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { TripDTO } from './dto/trip.dto';
@@ -35,12 +36,14 @@ export class TripsController {
   }
 
   @Get('/')
-  async getTrips(@Res() res: Response): Promise<any> {
+  async getTrips(
+    @Res() res: Response,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<any> {
     try {
-      const trips = await this.tripService.getTrips();
-      return res.status(HttpStatus.OK).json({
-        trips,
-      });
+      const result = await this.tripService.getTrips(page, limit);
+      return res.status(HttpStatus.OK).json(result);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
