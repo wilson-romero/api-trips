@@ -12,12 +12,14 @@ export class TripsService {
       .find()
       .skip(Number(limit) * (Number(page) - 1))
       .limit(Number(limit));
+
+    const count = await this.tripModel.countDocuments();
     return {
       info: {
-        count: 0,
-        pages: 0,
-        next: null,
-        prev: null 
+        count,
+        currentPageCount: trips.length,
+        pages: Math.ceil(count / limit),
+        page: Number(page),
       },
       trips,
     };

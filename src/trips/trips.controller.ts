@@ -14,6 +14,7 @@ import {
 import { Response } from 'express';
 import { TripDTO } from './dto/trip.dto';
 import { TripsService } from './trips.service';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('trips')
 export class TripsController {
@@ -36,6 +37,8 @@ export class TripsController {
   }
 
   @Get('/')
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
   async getTrips(
     @Res() res: Response,
     @Query('page') page: number,
@@ -60,6 +63,7 @@ export class TripsController {
   }
 
   @Get('/countByCity')
+  @ApiQuery({ name: 'city', description: 'Filter by the name of the city.', required: false })
   async countByCityTrips(
     @Res() res: Response,
     @Query('city') city: string,
