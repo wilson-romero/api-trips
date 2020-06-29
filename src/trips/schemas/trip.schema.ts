@@ -27,7 +27,7 @@ export const TripSchema = new Schema({
     name: String,
   },
   city: {
-    name: String,
+    name: { type: String, index: true },
   },
   passenger: {
     first_name: String,
