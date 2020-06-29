@@ -1,37 +1,23 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
-
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# API Trips
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Challenge to show a REST API which allows to create, read and modify travel information
 
 ## Installation
 
 ```bash
+# install dependencies
 $ npm install
+```
+
+## Environment configuration
+
+Copy the env.sample file to .env and fill *DATABASE_URI* with the connection information to a mongo
+
+```
+PORT=3000
+DATABASE_URI=mongodb://user:pass@localhost/database
 ```
 
 ## Running the app
@@ -47,29 +33,83 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Solution to the proposed exercises
 
-```bash
-# unit tests
-$ npm run test
+The challenge had the following points:
+	
+1. Migrate JSON data to a database
+	
+	**Solution**
+	The mongoimport tool was used as in the following script
+	
+```	bash
+mongoimport --host <host> --ssl -u mark -p '<pass>' --authenticationDatabase admin  --db <db> --collection <collection> --drop --file <file>.json --jsonArray
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
+	
+2. Create a Rest API
 
-## Support
+	**Solution**
+	
+	The Next JS framework with TypeScript was used to create the REST API. NestJs made with Node.js and uses Express as HTTP Server.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+	
+3. Create the following endpoints
+
+	**Check the number of total trips**
+
+	**Solution**
+	The endpoint showing the solution is */trips/count* by the GET method
+	
+	[Documentation](http://localhost:3000/docs/#/default/TripsController_countTrips)
+	
+		
+	**Check the number of total trips by city**
+	
+	**Solution**
+	The endpoint showing the solution is */trips/countByCity* by the GET method
+	
+	[Documentation](http://localhost:3000/docs/#/default/TripsController_countByCityTrips)
+	
+	Create a trip
+
+	**Solution**
+	The endpoint it creates is */trips* by the POST method
+	
+	[Documentation](http://localhost:3000/docs/#/default/TripsController_createTrip)
+	
+	Update a trip
+
+	**Solution**
+	The endpoint it update is */trips* by the PUT method
+	
+	[Documentation](http://localhost:3000/docs/#/default/TripsController_updateTrip)
+	
+4. Create the API documentation in Swagger
+
+	**Solution**
+	Documentation with Swagger [http://localhost:3000/docs/](http://localhost:3000/docs/)
+	
+5. Create a diagram of the developed application architecture
+
+	**Solution**
+	
+	![Diagram](./.screenshots/api-trips.jpg)
+	
+## Git Flow
+Function branch workflow was used
+
+![Git-flow](./.screenshots/git-flow.svg)
+
+## Additional recommendation
+To see the solutions configure the Mongodb database and run the project in production mode on port 3000
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - Wilson Romero
+- Twitter - [@WilsonRomeroC](https://twitter.com/WilsonRomeroC)
 
 ## License
 
-  Nest is [MIT licensed](LICENSE).
+[MIT licensed](LICENSE).
+
